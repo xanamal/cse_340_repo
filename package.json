@@ -1,0 +1,29 @@
+{
+  "name": "cse_340_repo",
+  "version": "1.0.0",
+  "description": "this is xanen gilberts repo for block 5 cse340 class",
+  "homepage": "https://github.com/xanamal/cse_340_repo#readme",
+  "bugs": {
+    "url": "https://github.com/xanamal/cse_340_repo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xanamal/cse_340_repo.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
