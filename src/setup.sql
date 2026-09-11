@@ -89,11 +89,59 @@ VALUES
 
 CREATE TABLE categories(
 	category_ID SERIAL PRIMARY KEY,
-	name VARCHAR(150)
+	name VARCHAR(150) NOT NULL
 );
 
 INSERT INTO categories(name)
 VALUES
 ('Environmental'),
 ('Senior Support'),
-('Arts');
+('Arts'),
+('Community Outreach'),
+('Youth & Education'),
+('Animal Welfare');
+
+-- Junction table modeling the many-to-many relationship between
+-- service projects and categories: a project can belong to one or
+-- more categories, and a category can be associated with one or
+-- more projects.
+CREATE TABLE project_category(
+	project_id INT NOT NULL REFERENCES service_project(project_id),
+	category_id INT NOT NULL REFERENCES categories(category_id),
+	PRIMARY KEY (project_id, category_id)
+);
+
+INSERT INTO project_category (project_id, category_id)
+VALUES
+    -- Community Food Drive -> Community Outreach
+    (1, 4),
+    -- Park Cleanup -> Environmental
+    (2, 1),
+    -- Senior Center Assistance -> Senior Support
+    (3, 2),
+    -- Neighborhood Garden -> Environmental
+    (4, 1),
+    -- Clothing Donation Sort -> Community Outreach
+    (5, 4),
+    -- Riverbank Restoration -> Environmental
+    (6, 1),
+    -- Homeless Shelter Meal Service -> Community Outreach
+    (7, 4),
+    -- School Supply Drive -> Youth & Education
+    (8, 5),
+    -- Trail Maintenance -> Environmental
+    (9, 1),
+    -- Community Recycling Event -> Environmental and Community Outreach
+    (10, 1),
+    (10, 4),
+    -- Animal Shelter Volunteer Day -> Animal Welfare
+    (11, 6),
+    -- Habitat Restoration -> Environmental
+    (12, 1),
+    -- Youth Mentoring Day -> Youth & Education
+    (13, 5),
+    -- Holiday Gift Collection -> Community Outreach
+    (14, 4),
+    -- Community Painting Project -> Arts and Community Outreach
+    (15, 3),
+    (15, 4);
