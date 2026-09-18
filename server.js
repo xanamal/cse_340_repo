@@ -57,12 +57,12 @@ app.get('/organizations', async (req, res) => {
 });
 
 app.get('/projects', async (req, res) => {
-    const service_projects = await getAllServiceProjects();
-    service_projects.forEach(project => {
+    const projects = await getAllServiceProjects();
+    projects.forEach(project => {
       console.log(project.name);
     })
     const title = 'Service Projects';
-    res.render('projects', { title, service_projects });
+    res.render('projects', { title, projects });
 });
 
 app.get('/categories', async (req, res) => {
