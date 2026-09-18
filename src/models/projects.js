@@ -63,7 +63,7 @@ const getProjectByCategory = async (category_id) => {
       s.project_id,
       title
     FROM public.service_project s
-    JOIN service_project_category p
+    JOIN project_category p
     ON s.project_id = p.project_id
     JOIN categories c
     ON p.category_id = c.category_id
