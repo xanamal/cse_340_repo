@@ -265,6 +265,84 @@ footer {
     }
 }
 
+/* Forms (new/edit organization, new project, etc.) */
+form {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    max-width: 480px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 0;
+}
+
+form label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin-bottom: 0.35rem;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    font-family: var(--font-base);
+    font-size: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+form textarea {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(44, 95, 111, 0.15);
+}
+
+form button[type="submit"] {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-family: var(--font-base);
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 0.65rem 1.5rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+form button[type="submit"]:hover {
+    background-color: var(--color-primary-dark);
+}
+
+form button[type="submit"]:focus-visible {
+    outline: 2px solid var(--color-primary-dark);
+    outline-offset: 2px;
+}
+
 /* Flash message styles */
 .alert {
     padding: 15px;
