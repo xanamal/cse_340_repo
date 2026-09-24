@@ -10,7 +10,7 @@ const getAllOrganizations = async() => {
 
     return result.rows;
 }
-const getOrganizationDetails = async (organizationId) => {
+const getOrganizationById = async (organizationId) => {
       const query = `
       SELECT
         organization_id,
@@ -90,4 +90,4 @@ const updateOrganization = async (organizationId, name, description, contactEmai
 };
 
 // Export the model functions
-export { getAllOrganizations, getOrganizationDetails, createOrganization, updateOrganization };
+export { getAllOrganizations, getOrganizationById, createOrganization, updateOrganization };

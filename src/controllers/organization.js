@@ -1,5 +1,5 @@
 import { body, validationResult } from 'express-validator';
-import { getAllOrganizations, getOrganizationDetails } from '../models/organization.js';
+import { getAllOrganizations, getOrganizationById } from '../models/organization.js';
 import { getProjectsByOrganizationId } from '../models/projects.js';
 import { createOrganization, updateOrganization } from '../models/organization.js';
 
@@ -28,7 +28,7 @@ const organizationValidation = [
 
 const showOrganizationDetailsPage = async (req, res) => {
     const organizationId = req.params.id;
-    const organizationDetails = await getOrganizationDetails(organizationId);
+    const organizationDetails = await getOrganizationById(organizationId);
     const projects = await getProjectsByOrganizationId(organizationId);
     const title = 'Organization Details';
 
@@ -72,7 +72,7 @@ const showNewOrganizationForm = async (req, res) => {
 
 const showEditOrganizationForm = async (req, res) => {
     const organizationId = req.params.id;
-    const organizationDetails = await getOrganizationDetails(organizationId);
+    const organizationDetails = await getOrganizationById(organizationId);
 
     const title = 'Edit Organization';
     res.render('edit-organization', { title, organizationDetails });
