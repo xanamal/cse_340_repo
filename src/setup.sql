@@ -1,24 +1,42 @@
+-- ========================================
+-- Drop tables (in reverse dependency order) so this script can be re-run
+-- without creating duplicate rows or failing on "table already exists"
+-- ========================================
+DROP TABLE IF EXISTS project_category;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS service_project;
+DROP TABLE IF EXISTS organization;
+
+-- ========================================
+-- Organization Table
+-- ========================================
 CREATE TABLE organization (
-	organization_id SERIAL PRIMARY KEY,
-	name VARCHAR(150) NOT NULL,
-	description TEXT NOT NULL,
-	contact_email VARCHAR(255) NOT NULL,
-	logo_filename VARCHAR(255) NOT NULL
+    organization_id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    contact_email VARCHAR(255) NOT NULL,
+    logo_filename VARCHAR(255) NOT NULL
 );
 
-INSERT INTO	organization (name, description, contact_email, logo_filename)
+-- ========================================
+-- Insert sample data: Organizations
+-- ========================================
+INSERT INTO organization (name, description, contact_email, logo_filename)
 VALUES
-	('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
-	('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
-	('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
+    ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
+    ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
+    ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
 
+-- ========================================
+-- Service Project Table
+-- ========================================
 CREATE TABLE service_project(
-	project_id SERIAL PRIMARY KEY,
-	organization_id INT REFERENCES organization(organization_id),
-	title VARCHAR(150),
-	description VARCHAR(255),
-	location VARCHAR(150),
-	date DATE
+    project_id SERIAL PRIMARY KEY,
+    organization_id INT REFERENCES organization(organization_id),
+    title VARCHAR(150),
+    description VARCHAR(255),
+    location VARCHAR(150),
+    date DATE
 );
 
 INSERT INTO service_project
@@ -87,28 +105,33 @@ VALUES
      'Help paint and improve a shared community building.',
      'Pleasant View Community Center', '2026-10-20');
 
+-- ========================================
+-- Categories Table
+-- ========================================
 CREATE TABLE categories(
-	category_ID SERIAL PRIMARY KEY,
-	name VARCHAR(150) NOT NULL
+    category_ID SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL
 );
 
 INSERT INTO categories(name)
 VALUES
-('Environmental'),
-('Senior Support'),
-('Arts'),
-('Community Outreach'),
-('Youth & Education'),
-('Animal Welfare');
+    ('Environmental'),
+    ('Senior Support'),
+    ('Arts'),
+    ('Community Outreach'),
+    ('Youth & Education'),
+    ('Animal Welfare');
 
+-- ========================================
 -- Junction table modeling the many-to-many relationship between
 -- service projects and categories: a project can belong to one or
 -- more categories, and a category can be associated with one or
 -- more projects.
+-- ========================================
 CREATE TABLE project_category(
-	project_id INT NOT NULL REFERENCES service_project(project_id),
-	category_id INT NOT NULL REFERENCES categories(category_id),
-	PRIMARY KEY (project_id, category_id)
+    project_id INT NOT NULL REFERENCES service_project(project_id),
+    category_id INT NOT NULL REFERENCES categories(category_id),
+    PRIMARY KEY (project_id, category_id)
 );
 
 INSERT INTO project_category (project_id, category_id)
@@ -145,3 +168,25 @@ VALUES
     -- Community Painting Project -> Arts and Community Outreach
     (15, 3),
     (15, 4);
+
+    CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    role_description TEXT
+);
+
+INSERT INTO roles (role_name, role_description) VALUES 
+    ('user', 'Standard user with basic access'),
+    ('admin', 'Administrator with full system access');
+
+-- Verify the roles
+SELECT * FROM roles;
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
