@@ -4,7 +4,10 @@
     <h2><%= project[0].title %></h2>
     <h3><%= project[0].name %></h3>
     <p>Description: <%= project[0].description %></p>
-    <p><a href="/assign-categories/<%= project[0].project_id %>">Edit Categories</a></p>
+    <% if (user && user.role_name === 'admin') { %>
+        <p><a href="/edit-project/<%= project[0].project_id %>">Edit Project</a></p>
+        <p><a href="/assign-categories/<%= project[0].project_id %>">Edit Categories</a></p>
+    <% } %>
         <ul>
             <% categories.forEach(category => { %>
                 <li><a href="/category/<%= category.category_id %>"><%= category.name %></a><br>Location:  <%= project[0].location%> <br> Date: <%= project[0].date%> </li>
