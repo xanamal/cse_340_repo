@@ -48,6 +48,8 @@ import {
 
 import { triggerTestError } from './controllers/errors.js';
 
+import { processVolunteerForm, processUnvolunteerForm } from './controllers/volunteers.js';
+
 const router = express.Router();
 
 router.get('/', showHomePage);
@@ -104,6 +106,10 @@ router.post('/edit-category/:id', requireRole('admin'), categoryValidation, proc
 // Routes to handle the assign categories to project form
 router.get('/assign-categories/:projectId', requireRole('admin'), showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', requireRole('admin'), processAssignCategoriesForm);
+
+// Routes to handle volunteering for a project
+router.post('/volunteer/:projectId', requireLogin, processVolunteerForm);
+router.post('/unvolunteer/:projectId', requireLogin, processUnvolunteerForm);
 
 // User registration routes
 router.get('/register', showUserRegistrationForm);

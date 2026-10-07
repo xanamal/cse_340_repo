@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { getCategoriesByServiceProject } from '../models/categories.js';
 import { getAllServiceProjects, getProjectById, createProject, updateProject } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organization.js';
+import { isUserVolunteered } from '../models/volunteers.js';
 
 // Define validation rules for project form
 const projectValidation = [
@@ -39,8 +40,13 @@ const showProjectDetailsPage = async (req, res) => {
     const project = await getProjectById(projectId);
     const categories = await getCategoriesByServiceProject(projectId);
     const title = 'Project Details';
-    console.log(project)
-    res.render('project', { title, project, categories });
+
+    let hasVolunteered = false;
+    if (req.session.user) {
+        hasVolunteered = await isUserVolunteered(req.session.user.user_id, projectId);
+    }
+
+    res.render('project', { title, project, categories, hasVolunteered });
 }
 
 const showNewProjectForm = async (req, res) => {

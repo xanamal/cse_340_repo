@@ -8,6 +8,19 @@
         <p><a href="/edit-project/<%= project[0].project_id %>">Edit Project</a></p>
         <p><a href="/assign-categories/<%= project[0].project_id %>">Edit Categories</a></p>
     <% } %>
+    <% if (isLoggedIn) { %>
+        <% if (hasVolunteered) { %>
+            <p>You are volunteering for this project.</p>
+            <form action="/unvolunteer/<%= project[0].project_id %>" method="POST">
+                <input type="hidden" name="redirectTo" value="/project/<%= project[0].project_id %>">
+                <button type="submit">Remove yourself as a volunteer</button>
+            </form>
+        <% } else { %>
+            <form action="/volunteer/<%= project[0].project_id %>" method="POST">
+                <button type="submit">Volunteer for this project</button>
+            </form>
+        <% } %>
+    <% } %>
         <ul>
             <% categories.forEach(category => { %>
                 <li><a href="/category/<%= category.category_id %>"><%= category.name %></a><br>Location:  <%= project[0].location%> <br> Date: <%= project[0].date%> </li>

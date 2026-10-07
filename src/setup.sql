@@ -2,6 +2,7 @@
 -- Drop tables (in reverse dependency order) so this script can be re-run
 -- without creating duplicate rows or failing on "table already exists"
 -- ========================================
+DROP TABLE IF EXISTS project_volunteer;
 DROP TABLE IF EXISTS project_category;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS service_project;
@@ -189,4 +190,15 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ========================================
+-- Junction table modeling the many-to-many relationship between
+-- users and service projects: a user can volunteer for one or more
+-- projects, and a project can have one or more volunteers.
+-- ========================================
+CREATE TABLE project_volunteer(
+    project_id INT NOT NULL REFERENCES service_project(project_id),
+    user_id INT NOT NULL REFERENCES users(user_id),
+    PRIMARY KEY (project_id, user_id)
 );
